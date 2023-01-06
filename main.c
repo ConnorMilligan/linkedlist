@@ -6,35 +6,33 @@
 
 int main(void) {
     LinkedList list;
-    //Employee dave = {.name = "Dave", .age = 44};
-    //Employee sarah = {.name = "Sarah", .age = 34};
-    //Employee jill = {.name = "Jill", .age = 32};
-    //Employee *tmp;
+    Employee data1 = {.name = "Dave", .age = 44};
+    Employee data2 = {.name = "Sarah", .age = 34};
+    Employee data3 = {.name = "Jill", .age = 32};
+    Employee *tmp;
 
 
     //displayEmployee(&dave);
     initilizeList(&list);
-    char *data1 = "Hello";
-    char *data2 = "World";
-    char *data3 = "!";
 
-    push(&list, data1);
-    push(&list, data2);
-    push(&list, data3);
+    push(&list, &data1);
+    push(&list, &data2);
+    push(&list, &data3);
 
-    printList(&list, printf);
+    printList(&list, displayEmployee);
 
-    char *searchData = "World";
-    Node *node = getNode(&list, (COMPARE)strcmp, searchData);
+    tmp = &data2;
+    Node *node = getNode(&list, (COMPARE)compareEmployee, tmp);
     if (node != NULL) {
-        printf("Found node with data: %s\n", (char*)node->data);
+        printf("Found node with data: %s\n", ((Employee*)node->data)->name);
     } else {
         printf("Node not found\n");
     }
 
-    node = pop(&list);
-    printList(&list, printf);
-    printf("\n%s\n",node->data);
+    delete(&list, node);
+    pop(&list);
+    printList(&list, displayEmployee);
+
 
     
     return 0;
