@@ -2,15 +2,19 @@ SHELL = /bin/sh
 
 CC=gcc
 CFLAGS=-Wall
-DEPS = list.h employee.h
-OBJ = main.o list.o employee.o
-LIBS = -lncurses
+LDFLAGS =
+SRC = ${wildcard *.c}
+OBJ  = ${SRC:.c=.o}
 
-%.o: %.c ${DEPS}
+.PHONY: all clean
+
+all: main
+
+%.o: %.c
 	${CC} -c -o $@ $< ${CFLAGS}
 
 main: ${OBJ}
-	${CC} -o $@ $^ ${CFLAGS} ${LIBS}
+	${CC} -o $@ $^ ${CFLAGS} $(LDFLAGS)
 
 clean:
-	-rm -f *.o main
+	-rm -f main main.exe $(OBJ)
