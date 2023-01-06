@@ -4,15 +4,15 @@
 typedef void(*DISPLAY)(void*);
 typedef int(*COMPARE)(void*, void*);
 
-typedef struct _node {
+typedef struct Node {
     void  *data;
-    struct _node *next;
+    struct Node *next;
 } Node;
 
 typedef struct {
     Node *head;
     Node *tail;
-    Node *current;
+    unsigned int size;
 } LinkedList;
 
 void initilizeList(LinkedList *list);

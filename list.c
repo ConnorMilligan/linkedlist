@@ -6,7 +6,6 @@
 
 void initilizeList(LinkedList *list) {
     list->head = NULL;
-    list->current = NULL;
     list->tail = NULL;
 }
 
@@ -21,11 +20,63 @@ void push(LinkedList *list, void *data) {
         list->tail->next = node;
         list->tail = node;
     }
+    list->size++;
 }
 
-void delete(LinkedList *list, Node *node);
-Node* pop(LinkedList *list);
-Node* getNode(LinkedList *list, COMPARE compare, void *data);
+void delete(LinkedList *list, Node *node) {
+    if (node == list->head) {
+        if (list->head == list->tail) {
+            list->head = list->tail = NULL;
+        } else {
+            list->head = node->next;
+        }
+    } else {
+        Node *temp = list->head;
+        while (temp != NULL && temp->next != node)
+            temp = temp->next;
+        
+        if (temp != NULL) {
+            temp->next = node->next;
+            if (node == list->tail) 
+                list->tail = temp;
+        }
+    }
+    
+    free(node);
+    list->size--;
+}
+
+Node* pop(LinkedList *list) {
+    if (list->tail == NULL)
+        return NULL;
+
+    Node *node = list->tail;
+
+    if (list->head == list->tail) {
+        list->head = list->tail = NULL;
+    } else {
+        Node *temp = list->head;
+        while (temp->next != list->tail)
+            temp = temp->next;
+
+        list->tail = temp;
+        temp->next = NULL;
+    }
+    list->size--;
+
+    return node;
+}
+
+Node* getNode(LinkedList *list, COMPARE compare, void *data) {
+    Node *node = list->head;
+    while (node != NULL) {
+        if (compare(node->data, data) == 0) {
+            return node;
+        }
+        node = node->next;
+    }
+    return NULL;
+}
 
 void printList(LinkedList *list, DISPLAY display) {
     printf("Linked List\n");
